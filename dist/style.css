@@ -1,0 +1,53 @@
+/* *{
+    background: navy;
+} */
+
+.project-div{
+    background:lavenderblush;
+    margin: 10px;
+    height: 300px;
+    width: 300px;
+}
+
+.hover-div{
+    background: peru;
+    display: none;
+}
+
+.completed-button{
+    background: url(blackcheck.png);
+    background-size: contain;
+    border: none;
+    top: 200px;
+    right: 100px;
+    width: 40px;
+    height: 40px;
+}
+
+.completed-button:hover{
+    background: url(greencheck.png);
+    background-size: contain;
+    border: none;
+    top: 200px;
+    right: 100px;
+    width: 40px;
+    height: 40px;
+}
+.completed-button-complete{
+    background: url(greencheck.png);
+    background-size: contain;
+    border: none;
+    top: 200px;
+    right: 100px;
+    width: 40px;
+    height: 40px;
+}
+.completed-button-complete:hover{
+    background: url(blackcheck.png);
+    background-size: contain;
+    border: none;
+    top: 200px;
+    right: 100px;
+    width: 40px;
+    height: 40px;
+}
