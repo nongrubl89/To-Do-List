@@ -20,6 +20,8 @@
     grid-column: 1/2;
     grid-row: 1/2;
     min-width: 250px;
+    margin-right: 20px;
+    margin-left: 30px;
 }
 
 #new-project-form-div{
@@ -28,6 +30,8 @@
     grid-column: 1/2;
     grid-row:2/3;
     justify-self: center;
+    margin-right: 20px;
+    margin-left: 30px
     /* min-width: 250px; */
 
 }
@@ -40,9 +44,24 @@
     min-height: 230px;
     border-radius: 6px;
     padding: 12px;
-    margin-top: 28px;
-    
-    
+    /* margin-top: 28px; */
+    margin: 28px;
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    grid-template-rows: repeat(5, 1fr);
+    justify-self: center;
+}
+
+.title-div{
+    text-align: center;
+    grid-column: 1/5;
+    grid-row:1/2;
+}
+.button-div{
+    display: grid;
+    justify-items: center;
+    grid-row: 2/3;
+    grid-column: 1/5;
 }
 
 .hover-div{
@@ -111,6 +130,27 @@
     width: 30px;
     height: 30px;
 }
+
+.show-tasks{
+    background: url(expand.png);
+    background-size: contain;
+    border: none;
+    top: 200px;
+    right: 100px;
+    width: 30px;
+    height: 30px;
+}
+
+.hide-tasks{
+    background: url(collapse.png);
+    background-size: contain;
+    border: none;
+    top: 200px;
+    right: 100px;
+    width: 30px;
+    height: 30px;
+}
+
 
 .add-task-button{
     background: url(add.png);

@@ -20,6 +20,7 @@ const renderInterface = (() => {
                 projectDiv.dataset.id = index;
                 projectDiv.style.gridColumnStart = columnCounter;
                 projectDiv.style.gridRowStart = rowCounter;
+                project.projectID=index;
 
                 const titleDiv = document.createElement('div');
                 titleDiv.className = 'title-div';
@@ -29,10 +30,12 @@ const renderInterface = (() => {
                 const taskList = document.createElement('ul');
                 taskList.dataset.number=index;
                 taskList.style.display='none';
-                projectDiv.appendChild(taskList);
                 console.log(taskList);
+                const buttonDiv = document.createElement('div');
+                buttonDiv.className='button-div';
             
                 projectDiv.appendChild(titleDiv);
+                projectDiv.appendChild(buttonDiv);
                 container.appendChild(projectDiv);
 
                 const deleteButton = document.createElement('button');
@@ -48,28 +51,34 @@ const renderInterface = (() => {
                 addTaskButton.id = 'add-task'
                 addTaskButton.className = 'add-task-button';
                 addTaskButton.addEventListener('click', () => {
-                    // addTaskButton.className === 'add-task-button' ?
-                    //     addTaskButton.className = 'minus-task-button' :
-                    //     addTaskButton.className = 'add-task-button';
-                    // createNewTaskForm(project, projectDiv);
                     createNewTaskForm(project, projectDiv);
 
                 })
 
                 const showTasksButton = document.createElement('button');
-                showTasksButton.id='show-tasks';
-                showTasksButton.innerHTML='show tasks';
+                showTasksButton.className='show-tasks';
                 showTasksButton.addEventListener('click',()=>{
-                    taskList.style.display='block';
+                    showTasksButton.className==='show-tasks'?
+                    showTasksButton.className='hide-tasks':
+                    showTasksButton.className='show-tasks';
+                    if(taskList.children.length===0){
+                        alert ('No tasks in project')
+                    }
+                    if(taskList.style.display==='none'){
+                        taskList.style.display='block';
+                    } else if (taskList.style.display==='block'){
+                        taskList.style.display='none';
+                    }
                 })
 
-                projectDiv.appendChild(addTaskButton);
-                projectDiv.appendChild(deleteButton);
-                projectDiv.appendChild(showTasksButton);
+                buttonDiv.appendChild(addTaskButton);
+                buttonDiv.appendChild(deleteButton);
+                buttonDiv.appendChild(showTasksButton);
+                projectDiv.appendChild(taskList);
 
                 addHover(deleteButton, createHoverDiv('deleteHover', 'Delete this project', titleDiv));
                 addHover(addTaskButton, createHoverDiv('addTaskHover', 'Add a new task', titleDiv));
-                
+                addHover(showTasksButton, createHoverDiv('showTasksHover', 'Show all tasks', titleDiv));
 
             }
 
@@ -115,7 +124,6 @@ const renderInterface = (() => {
             $('.date').datetimepicker();
         });
         const calendar = document.querySelectorAll('.form-control')[1];
-        console.log(calendar);
 
         const newProjectButton = document.createElement('button');
         newProjectButton.innerHTML = 'Create New Project';
@@ -126,7 +134,6 @@ const renderInterface = (() => {
             const calendarValue = calendar.value;
             const newProjectObject = Project(newProjectInput.value, calendarValue.substr(0, calendarValue.indexOf(' ')));
             ProjectManager.setProjects(newProjectObject);
-            console.log(newProjectObject);
             renderProjects(ProjectManager.projects);
 
         })
@@ -143,11 +150,10 @@ const renderInterface = (() => {
 
     //creates a form where a new task is entered on the project div
     const createNewTaskForm = (project, projectDiv) => {
-        console.log(project);
+        
         const overlayDiv = document.createElement('div');
         overlayDiv.id='overlay';
         container.appendChild(overlayDiv);
-        console.log(overlayDiv);
 
         const newTaskForm = document.createElement('div');
         newTaskForm.className = "new-task-form";
@@ -188,7 +194,6 @@ const renderInterface = (() => {
             } else {
                 let newListItem = ListItem(newTaskNameInput.value, newTaskDescriptionInput.value);
                 project.setTodos(newListItem);
-
                 createListItemDisplay(projectDiv, project);
                 newTaskForm.style.display = 'none';
                 overlayDiv.style.display='none';
@@ -198,29 +203,31 @@ const renderInterface = (() => {
 
     //this is called when the add task button is clicked
     const createListItemDisplay = (projectDiv, project) => {
-        console.log(project.id);
+        const index = project.projectID;
+        console.log(index);
         let taskItems = project.toDos;
-        const taskList = document.get
-        // projectDiv.appendChild(taskList);
+        let taskList = document.querySelector(`[data-number='${index}']`);
+        console.log(taskList);
+        
         taskItems.forEach(function (taskItem, index, array) {
 
             if (index === array.length - 1) {
-                taskList.innerHTML = `<li>${taskItem.title}: ${taskItem.description}</li>`
-                taskList.className='task-list';
-
+                const taskItemToAppend = document.createElement('li');
+                taskItemToAppend.innerHTML= `${taskItem.title} : ${taskItem.description}`;
+                taskList.appendChild(taskItemToAppend);
+                
                 const completedButton = document.createElement('button');
                 completedButton.className = 'completed-button';
 
-                taskList.appendChild(completedButton);
+                taskItemToAppend.appendChild(completedButton);
                 taskList.style.display='none';
-                
 
                 completedButton.addEventListener('click', () => {
                     taskItem.completedTask === true ? taskItem.completedTask = false : taskItem.completedTask = true;
                     completedButton.className === 'completed-button' ?
                         completedButton.className = 'completed-button-complete' :
                         completedButton.className = 'completed-button';
-                        return taskList;
+                        
                 })
             }
             
