@@ -2,8 +2,8 @@ import { ListItem, Project, ProjectManager } from './projectManager.js'
 import { DateTime } from './dateTime.js'
 
 const renderInterface = (() => {
-    const container = document.querySelector('.container');
-    let columnCounter = 2;
+    const container = document.querySelector('.project-container');
+    let columnCounter = 1;
     let rowCounter = 1;
 
     //shows each project and renders the project div in the dom
@@ -12,7 +12,7 @@ const renderInterface = (() => {
         projects.forEach(function (project, index, array) {
             if (index === 0) {
                 project.projectID = 0;
-                renderInterface.renderNewProjectButton();
+                // renderInterface.renderNewProjectButton();
             }
             if (index === array.length - 1) {
                 const projectDiv = document.createElement('div');
@@ -65,8 +65,10 @@ const renderInterface = (() => {
                         alert ('No tasks in project')
                     }
                     if(taskList.style.display==='none'){
+                        projectDiv.className='expanded-project-div';
                         taskList.style.display='block';
                     } else if (taskList.style.display==='block'){
+                        projectDiv.className='project-div';
                         taskList.style.display='none';
                     }
                 })
@@ -105,18 +107,15 @@ const renderInterface = (() => {
 
     //creates the text box and button for a new project
     const renderNewProjectButton = () => {
-
+        console.log('Im being rendered')
+        const sidebar=document.querySelector('.sidebar');
         const newProjectFormDiv = document.createElement('div');
         newProjectFormDiv.className = ('col-sm-4');
         newProjectFormDiv.id = ('new-project-form-div');
-        container.appendChild(newProjectFormDiv);
+        sidebar.appendChild(newProjectFormDiv);
 
 
-        const newProjectInput = document.createElement('input');
-        newProjectInput.className = ('form-group form-control new-project-input')
-        newProjectInput.type = 'text';
-        newProjectInput.value = '';
-        newProjectInput.placeholder = 'New Project Name';
+        const newProjectInput = createDomInput('newProjectInput', 'form-group input-group form-control', 'Project Name');
         newProjectFormDiv.appendChild(newProjectInput);
 
         newProjectFormDiv.appendChild(DateTime());
@@ -130,12 +129,17 @@ const renderInterface = (() => {
         newProjectFormDiv.appendChild(newProjectButton);
 
         newProjectButton.addEventListener('click', () => {
+            if(!newProjectInput.value||!calendar.value){
+                alert('Please fill in both fields')
+            } else{
             addColRow();
-            const calendarValue = calendar.value;
+            let calendarValue = calendar.value;
             const newProjectObject = Project(newProjectInput.value, calendarValue.substr(0, calendarValue.indexOf(' ')));
             ProjectManager.setProjects(newProjectObject);
             renderProjects(ProjectManager.projects);
-
+            calendarValue='';
+            newProjectInput.value='';
+            }
         })
     }
 
@@ -159,19 +163,24 @@ const renderInterface = (() => {
         newTaskForm.className = "new-task-form";
         newTaskForm.id = 'task-form-in-div'
 
-        const newTaskNameInput = document.createElement('input');
-        newTaskNameInput.className = ('form-group input-group form-control')
-        newTaskNameInput.type = 'text';;
-        newTaskNameInput.placeholder = 'Task Name';
-        newTaskNameInput.value = '';
+        const newTaskNameInput = createDomInput('newTaskNameInput', 'form-group input-group form-control', 'Task Name');
         newTaskForm.appendChild(newTaskNameInput);
 
-        const newTaskDescriptionInput = document.createElement('input');
-        newTaskDescriptionInput.className = ('form-group input-group form-control')
-        newTaskDescriptionInput.type = 'text';
-        newTaskDescriptionInput.placeholder = 'Describe Task';
-        newTaskDescriptionInput.value = '';
-        newTaskForm.appendChild(newTaskDescriptionInput);
+        
+        const newTaskDescriptionInput = createDomInput('newTaskDescriptionInput', 'form-group input-group form-control', 'Describe this task');
+        newTaskForm.appendChild(newTaskDescriptionInput)
+
+
+        const newTaskPriority = ['Low','Medium','High'];
+        newTaskPriority.forEach(priority=> {
+            let btn=document.createElement('div');
+            btn.innerHTML=`<input type = "radio" name='priority'
+            id = ${priority}/>
+            <label for = ${priority}>${priority} priority</label>`
+            newTaskForm.appendChild(btn);
+            
+        });
+        
 
         const collapseTaskButton = document.createElement('button');
         collapseTaskButton.innerHTML='X';
@@ -192,7 +201,8 @@ const renderInterface = (() => {
             if (!newTaskDescriptionInput.value || !newTaskNameInput.value) {
                 alert('Please Fill In Both Fields!')
             } else {
-                let newListItem = ListItem(newTaskNameInput.value, newTaskDescriptionInput.value);
+                let newListItem = ListItem(newTaskNameInput.value, newTaskDescriptionInput.value, newTaskPriority.checked);
+                console.log(newListItem);
                 project.setTodos(newListItem);
                 createListItemDisplay(projectDiv, project);
                 newTaskForm.style.display = 'none';
@@ -201,8 +211,22 @@ const renderInterface = (() => {
         })
     }
 
-    //this is called when the add task button is clicked
+    const createDomInput=(elementName, classNames, inputPlaceholder)=>{
+        elementName = document.createElement('input');
+        elementName.className = (classNames)
+        elementName.type = 'text';
+        elementName.placeholder = inputPlaceholder;
+        elementName.value = '';
+        return elementName;
+}
+    // const sortByPriority=(arr)=>{
+    //     arr.sort((a,b)=>(a.priority > b.priority) ? 1 : -1 )
+    //     )
+    // }
+    //this is called when the expand button is clicked
     const createListItemDisplay = (projectDiv, project) => {
+        
+        console.log(projectDiv);
         const index = project.projectID;
         console.log(index);
         let taskItems = project.toDos;
@@ -213,7 +237,7 @@ const renderInterface = (() => {
 
             if (index === array.length - 1) {
                 const taskItemToAppend = document.createElement('li');
-                taskItemToAppend.innerHTML= `${taskItem.title} : ${taskItem.description}`;
+                taskItemToAppend.innerHTML= `Task Name: ${taskItem.title}<br> Desription:${taskItem.description}`;
                 taskList.appendChild(taskItemToAppend);
                 
                 const completedButton = document.createElement('button');

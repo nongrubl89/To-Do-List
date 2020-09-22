@@ -18,9 +18,7 @@ import { ListItem, Project, ProjectManager, Home} from './projectManager.js';
 import{DateTime} from './dateTime.js'
 let projects = ProjectManager.projects;
 renderInterface.renderProjects(projects);
-$(function () {
-    $('#datetimepicker1').datetimepicker();
-});
+renderInterface.renderNewProjectButton();
 
 console.log(ProjectManager);
 

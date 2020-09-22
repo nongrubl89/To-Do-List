@@ -1,49 +1,36 @@
-// function Project{
-//     constructor(title, dueDate){
-//         this.title=title;
-//         this.todos=[];
-//         this.dueDate=dueDate; 
-//         this.projectNumber = 0;
-// }
-//     //push todos into array
-//     setTodos(ListItem){
-//         // this.todos=[];
-//         this.todos.push(ListItem)
-//     }
-// }
 
-const ProjectList=()=>{
-    let projects=[];
-    const setProjects=(Project)=>{
+const ProjectList = () => {
+    let projects = [];
+    const setProjects = (Project) => {
         projects.push(Project);
     }
 
-    const deleteProject=(index)=>{
-        projects.splice(index,1);
+    const deleteProject = (index) => {
+        projects.splice(index, 1);
         console.log(projects);
     }
-    return{projects, setProjects, deleteProject}
+    return { projects, setProjects, deleteProject }
 }
 
-const Project=(title, dateDue)=>{
-    const getTitle=()=>title;
+const Project = (title, dateDue) => {
+    const getTitle = () => title;
     let toDos = [];
-    const setTodos =(ListItem)=>{
+    const setTodos = (ListItem) => {
         toDos.push(ListItem);
     }
-    const deleteTodo=(index)=>{
+    const deleteTodo = (index) => {
         toDos.splice(index, 1);
     }
-    return{title, dateDue, toDos, getTitle, setTodos, deleteTodo}
+    return { title, dateDue, toDos, getTitle, setTodos, deleteTodo }
 }
 //make listItem an instance of project
-const ListItem=(title, description)=>{
+const ListItem = (title, description, priority) => {
     let completedTask = false;
-   return{title, description, completedTask}  
+    return { title, description, priority, completedTask }
 }
 
 const Home = Project('Home', '9/15/2020');
-const ProjectManager=ProjectList();
+const ProjectManager = ProjectList();
 ProjectManager.setProjects(Home);
 
-export {ListItem, Project, ProjectManager}
+export { ListItem, Project, ProjectManager }
