@@ -3,8 +3,6 @@ import { DateTime } from './dateTime.js'
 
 const renderInterface = (() => {
     const container = document.querySelector('.project-container');
-    let columnCounter = 1;
-    let rowCounter = 1;
 
     //shows each project and renders the project div in the dom
     const renderProjects = (projects) => {
@@ -12,15 +10,12 @@ const renderInterface = (() => {
         projects.forEach(function (project, index, array) {
             if (index === 0) {
                 project.projectID = 0;
-                // renderInterface.renderNewProjectButton();
+                // projectDiv.style.gridRowStart = rowCounter;
             }
             if (index === array.length - 1) {
                 const projectDiv = document.createElement('div');
                 projectDiv.className = 'project-div';
                 projectDiv.dataset.id = index;
-                projectDiv.style.bac
-                projectDiv.style.gridColumnStart = columnCounter;
-                projectDiv.style.gridRowStart = rowCounter;
                 project.projectID=index;
 
                 const titleDiv = document.createElement('div');
@@ -42,12 +37,12 @@ const renderInterface = (() => {
                 const deleteButton = document.createElement('button');
                 deleteButton.className = 'delete-project-button';
                 deleteButton.addEventListener('click', () => {
-                    event.target.parentNode.remove();
+                    event.target.parentNode.parentNode.remove();
                     ProjectManager.deleteProject(index);
 
                 })
 
-
+                
                 const addTaskButton = document.createElement('button');
                 addTaskButton.id = 'add-task'
                 addTaskButton.className = 'add-task-button';
@@ -59,22 +54,36 @@ const renderInterface = (() => {
                 const showTasksButton = document.createElement('button');
                 showTasksButton.className='show-tasks';
                 showTasksButton.addEventListener('click',()=>{
+                    if(!taskList){
+                        showTasksButton.className='show-tasks';
+                    } else{
                     showTasksButton.className==='show-tasks'?
                     showTasksButton.className='hide-tasks':
-                    showTasksButton.className='show-tasks';
-                    if(taskList.children.length===0){
-                        alert ('No tasks in project')
+                    showTasksButton.className='show-tasks';}
+                    
+
+                    if(project.toDos.length===0){
+                        alert ('No tasks in project');
+                        return;
                     }
+                    
+
                     if(taskList.style.display==='none'){
-                        projectDiv.className='expanded-project-div';
-                        taskList.style.display='block';
-                    } else if (taskList.style.display==='block'){
+                        projectDiv.className='project-div-expanded';
+                        taskList.style.display='grid';
+                        shiftDivsDown();
+                        
+                        if(projectDiv.className==='project-div'){
+                            taskList.style.display='none';
+                        }  
+                        
+                    } else if (taskList.style.display==='grid'){
                         projectDiv.className='project-div';
                         taskList.style.display='none';
-                        while(taskList.firstChild){
-                            taskList.removeChild(taskList.firstChild);
-                          }
+                        shiftDivsUp();
+                        
                     }
+
                 })
 
                 buttonDiv.appendChild(addTaskButton);
@@ -87,11 +96,12 @@ const renderInterface = (() => {
                 addHover(showTasksButton, createHoverDiv('showTasksHover', 'Show all tasks', titleDiv));
 
             }
-
+          
         });
-
+        
     }
 
+    //creates a hover div and appends it to an element
     const createHoverDiv = (title, str, divToAppend) => {
         title = document.createElement('div');
         title.className = 'hover-div';
@@ -100,6 +110,7 @@ const renderInterface = (() => {
         return title;
     }
 
+    //adds a hover element to a div, used on the icons in each project div
     const addHover = (ele, divToDisplay) => {
         ele.onmouseover = function () {
             divToDisplay.style.display = 'block';
@@ -128,6 +139,7 @@ const renderInterface = (() => {
         const calendar = document.querySelectorAll('.form-control')[1];
 
         const newProjectButton = document.createElement('button');
+        newProjectButton.id='new-project-button';
         newProjectButton.innerHTML = 'Create New Project';
         newProjectFormDiv.appendChild(newProjectButton);
 
@@ -135,7 +147,7 @@ const renderInterface = (() => {
             if(!newProjectInput.value||!calendar.value){
                 alert('Please fill in both fields')
             } else{
-            addColRow();
+            // addColRow();
             let calendarValue = calendar.value;
             const newProjectObject = Project(newProjectInput.value, calendarValue.substr(0, calendarValue.indexOf(' ')));
             ProjectManager.setProjects(newProjectObject);
@@ -146,14 +158,32 @@ const renderInterface = (() => {
         })
     }
 
-    //adds one to the column and row counters to place divs on the page
-    const addColRow = () => {
-        columnCounter += 1;
-        if (columnCounter === 5) {
-            columnCounter = 2;
-            rowCounter += 2;
+    //shifts divs that follow the clicked div down when the expand button is clicked
+    const shiftDivsDown = () => {
+        const clickedDivID=event.target.parentNode.parentNode.dataset.id;
+        const projDivs = document.querySelectorAll('[data-id]');
+        const projDivsArray = Array.from(projDivs);
+        projDivsArray.forEach(function (div, i){
+            if(i!=clickedDivID){
+                div.className='project-div';
+            }
+            if ((div.className==='project-div')&&(i>clickedDivID)){
+                div.className='project-div-shifted';
+            }
+        })}
+
+        //shifts divs back up 150px when the collapse button is clicked
+        const shiftDivsUp=()=>{
+            const projDivs = document.querySelectorAll('[data-id]');
+            const projDivsArray = Array.from(projDivs);
+            projDivsArray.forEach(function (div){
+                if(div.className==='project-div-shifted'){
+                    div.className='project-div';
+                }
+
+            })
         }
-    }
+    
 
     //creates a form where a new task is entered on the project div
     const createNewTaskForm = (project, projectDiv) => {
@@ -166,11 +196,17 @@ const renderInterface = (() => {
         newTaskForm.className = "new-task-form";
         newTaskForm.id = 'task-form-in-div'
 
-        const newTaskNameInput = createDomInput('newTaskNameInput', 'form-group input-group form-control', 'Task Name');
+        const newTaskNameInput = createDomInput
+        ('newTaskNameInput', 
+        'form-group input-group form-control', 
+        'Task Name');
         newTaskForm.appendChild(newTaskNameInput);
 
         
-        const newTaskDescriptionInput = createDomInput('newTaskDescriptionInput', 'form-group input-group form-control', 'Describe this task');
+        const newTaskDescriptionInput = createDomInput
+        ('newTaskDescriptionInput', 
+        'form-group input-group form-control', 
+        'Describe this task');
         newTaskForm.appendChild(newTaskDescriptionInput)
 
 
@@ -190,7 +226,6 @@ const renderInterface = (() => {
         collapseTaskButton.innerHTML='X';
         newTaskForm.appendChild(collapseTaskButton);
         collapseTaskButton.addEventListener('click',()=>{
-            console.log('click');
             overlayDiv.style.display='none';
         })
 
@@ -204,6 +239,7 @@ const renderInterface = (() => {
         newTaskButton.addEventListener('click', () => {
             event.preventDefault();
             const priorityBtns = document.querySelector('input[name="priority"]:checked').id;
+            if(!priorityBtns){alert('Please Select Priority')}
             if (!newTaskDescriptionInput.value || !newTaskNameInput.value) {
                 alert('Please Fill In Both Fields!')
             } else {
@@ -234,22 +270,35 @@ const renderInterface = (() => {
         console.log(projectDiv);
         const index = project.projectID;
         console.log(index);
-        let taskItems = project.toDos.sort((a,b) => (a.priority > b.priority) ? 1 : ((b.priority> a.priority) ? -1 : 0));
-        console.log(taskItems);
+        let taskItems = project.toDos;
         let taskList = document.querySelector(`[data-number='${index}']`);
         console.log(taskList);
         
-        taskItems.forEach(function (taskItem) {
-
+        taskItems.forEach(function (taskItem, index, array) {
+                if(index===array.length-1){
                 const taskItemToAppend = document.createElement('li');
-                taskItemToAppend.innerHTML= `Task Name: ${taskItem.title}<br> Desription:${taskItem.description}`;
+                taskItemToAppend.className='list-items';
+                taskItemToAppend.innerHTML= `<div class = 'task-list-item'>${taskItem.title}</div> 
+                <div class='description-list-item'>${taskItem.description}</div> 
+                <div class='priority-list-item'></div>`;
                 taskList.appendChild(taskItemToAppend);
+                const priorityDot = document.querySelector('.priority-list-item');
+                console.log(priorityDot);
+
+                if(taskItem.priority==='High'){
+                    priorityDot.className='high-priority';
+                } else if(taskItem.priority==='Medium'){
+                    priorityDot.className='medium-priority';
+                } else if(taskItem.priority==='Low'){
+                    priorityDot.className='low-priority';
+                }
                 
                 const completedButton = document.createElement('button');
                 completedButton.className = 'completed-button';
 
                 taskItemToAppend.appendChild(completedButton);
-                taskList.style.display='none';
+                projectDiv.className==='project-div-expanded'? taskList.style.display='grid':taskList.style.display='none';
+                
 
                 completedButton.addEventListener('click', () => {
                     taskItem.completedTask === true ? taskItem.completedTask = false : taskItem.completedTask = true;
@@ -257,10 +306,10 @@ const renderInterface = (() => {
                         completedButton.className = 'completed-button-complete' :
                         completedButton.className = 'completed-button';
                         
-                })
+                  })     
             
-            
-        })
+        }})
+        
     }
 
     return { renderProjects, renderNewProjectButton }

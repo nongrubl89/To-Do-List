@@ -1,6 +1,6 @@
 
 const ProjectList = () => {
-    let projects = [];
+    const projects = [];
     const setProjects = (Project) => {
         projects.push(Project);
     }
@@ -14,7 +14,7 @@ const ProjectList = () => {
 
 const Project = (title, dateDue) => {
     const getTitle = () => title;
-    let toDos = [];
+    const toDos = [];
     const setTodos = (ListItem) => {
         toDos.push(ListItem);
     }
@@ -30,6 +30,8 @@ const ListItem = (title, description, priority) => {
 }
 
 const Home = Project('Home', '9/15/2020');
+const newTodo = ListItem ('Clean', 'clean the house', 'High', true);
+Home.setTodos(newTodo);
 const ProjectManager = ProjectList();
 ProjectManager.setProjects(Home);
 
