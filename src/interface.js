@@ -26,7 +26,6 @@ const renderInterface = (() => {
                 const taskList = document.createElement('ul');
                 taskList.dataset.number=index;
                 taskList.style.display='none';
-                console.log(taskList);
                 const buttonDiv = document.createElement('div');
                 buttonDiv.className='button-div';
             
@@ -54,12 +53,12 @@ const renderInterface = (() => {
                 const showTasksButton = document.createElement('button');
                 showTasksButton.className='show-tasks';
                 showTasksButton.addEventListener('click',()=>{
-                    if(!taskList){
+                    if((showTasksButton.className==='show-tasks')&&(taskList.hasChildNodes()===false)){
+                        console.log(taskList.hasChildNodes());
                         showTasksButton.className='show-tasks';
-                    } else{
-                    showTasksButton.className==='show-tasks'?
-                    showTasksButton.className='hide-tasks':
-                    showTasksButton.className='show-tasks';}
+                    }else{
+                        showTasksButton.className='hide-tasks';
+                    }
                     
 
                     if(project.toDos.length===0){
@@ -200,6 +199,7 @@ const renderInterface = (() => {
         ('newTaskNameInput', 
         'form-group input-group form-control', 
         'Task Name');
+        newTaskNameInput.id='task-name-input';
         newTaskForm.appendChild(newTaskNameInput);
 
         
@@ -207,12 +207,14 @@ const renderInterface = (() => {
         ('newTaskDescriptionInput', 
         'form-group input-group form-control', 
         'Describe this task');
+        newTaskDescriptionInput.id='describe';
         newTaskForm.appendChild(newTaskDescriptionInput)
 
 
         const newTaskPriority = ['Low','Medium','High'];
         newTaskPriority.forEach(priority=> {
             const radios=document.createElement('div');
+            radios.className=priority;
             radios.innerHTML=`<input type = "radio" name='priority' class = 'radio'
             
             id = ${priority} />
@@ -223,7 +225,7 @@ const renderInterface = (() => {
         
 
         const collapseTaskButton = document.createElement('button');
-        collapseTaskButton.innerHTML='X';
+        collapseTaskButton.className='collapse-task-form';
         newTaskForm.appendChild(collapseTaskButton);
         collapseTaskButton.addEventListener('click',()=>{
             overlayDiv.style.display='none';
@@ -231,6 +233,7 @@ const renderInterface = (() => {
 
         const newTaskButton = document.createElement('button');
         newTaskButton.innerHTML = 'Add task to ' + project.getTitle();
+        newTaskButton.className='new-task-button';
         newTaskForm.appendChild(newTaskButton);
 
         overlayDiv.appendChild(newTaskForm);
