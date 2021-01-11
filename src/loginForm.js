@@ -36,17 +36,17 @@ const loginForm = (() => {
       if (event.target.id === 'submit-login') {
         event.preventDefault();
         loginDiv.style.display = 'none';
-        const projects = ProjectManager.projects;
-        renderInterface.renderProjects(projects);
-        renderInterface.renderNewProjectButton();
-        console.log('logging in');
+        loginController.logInUser(
+          loginDiv.childNodes[1][0].value,
+          loginDiv.childNodes[1][1].value
+        );
       }
       if (event.target.id === 'submit-signup') {
         event.preventDefault();
         loginDiv.style.display = 'none';
         loginController.createUser(
-          loginDiv.childNodes[0][0].value,
-          loginDiv.childNodes[0][1].value
+          loginDiv.childNodes[1][0].value,
+          loginDiv.childNodes[1][1].value
         );
       }
     });

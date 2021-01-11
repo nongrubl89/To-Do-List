@@ -20,7 +20,21 @@ const loginController = (() => {
       });
   };
 
-  return { createUser };
+  const logInUser = (email, password) => {
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then((user) => {
+        console.log('sign in success');
+        renderInterface.renderNewProjectButton();
+      })
+      .catch((error) => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+      });
+  };
+
+  return { createUser, logInUser };
 })();
 
 export { loginController };
