@@ -33,6 +33,7 @@
   width: 90%;
   justify-items: center;
   display: grid;
+  grid-auto-rows: min-content;
 }
 
 .line {

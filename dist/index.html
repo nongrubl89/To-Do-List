@@ -3,6 +3,8 @@
 <link rel='stylesheet' href='style.css'>
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;1,100;1,300;1,400;1,700&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-auth.js"></script>
 </head>
 
 <body> 
@@ -25,5 +27,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.4.0/lang/en-gb.js"></script>                
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/3.0.0/js/bootstrap-datetimepicker.min.js"></script>         
     <script src="main.js"></script>
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+          apiKey: "AIzaSyAibsUQIBX1Q83isNBlJ6gALa1ie7rYjJg",
+          authDomain: "to-do-list-6932f.firebaseapp.com",
+          projectId: "to-do-list-6932f",
+          storageBucket: "to-do-list-6932f.appspot.com",
+          messagingSenderId: "1043747409433",
+          appId: "1:1043747409433:web:3113d842d94604348ba488"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        console.log('firebase init')
+      </script>
 </body>
 </html>

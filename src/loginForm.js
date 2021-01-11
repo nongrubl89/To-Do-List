@@ -37,8 +37,12 @@ const loginForm = (() => {
       }
       if (event.target.id === 'submit-signup') {
         event.preventDefault();
-        console.log(loginDiv[email].value);
-        // loginController.createUser('lisaburgnon@gmail.com', 'password');
+        loginDiv.style.display = 'none';
+        // loginController.createUser(
+        //   loginDiv.childNodes[0][0].value,
+        //   loginDiv.childNodes[0][1].value
+        // );
+        renderInterface.renderNewProjectButton();
       }
     });
   };
