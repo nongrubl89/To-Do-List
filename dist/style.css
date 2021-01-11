@@ -48,9 +48,12 @@
   display: grid;
 }
 
-#new-project-button,
-.new-task-button,
-.collapse-task-form {
+#login-div {
+  color: whitesmoke;
+  display: grid;
+}
+
+.main-button {
   background: none;
   border: #8ac926 1px solid;
   border-radius: 8px;
@@ -59,6 +62,12 @@
   justify-self: center;
   display: grid;
   transition: color 0.5s ease;
+  width: 6em;
+}
+
+.col-sm-25 {
+  display: grid;
+  justify-content: center;
 }
 
 .header {
@@ -69,9 +78,14 @@
   justify-content: center;
 }
 
-#new-project-button:hover,
-.new-task-button:hover,
-.collapse-task-form:hover {
+#log-in,
+#sign-up,
+#guest-user {
+  width: 6em;
+  margin: 10px;
+}
+
+.main-button:hover {
   color: #8ac926;
   transition: color 0.5s ease;
 }
@@ -127,7 +141,8 @@
   box-shadow: 0 6px 6px -4px rgba(0, 0, 0, 0.2);
 }
 
-.slide {
+.slide,
+#new-project-form-div {
   animation: slideIn 1s forwards;
 }
 
@@ -197,7 +212,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   -ms-transform: translate(-50%, -50%);
-  height: 350px;
+  height: 400px;
   width: 300px;
   background: #212529;
   padding: 16px;
@@ -206,6 +221,13 @@
   z-index: 3;
   color: whitesmoke;
   font-family: "Lato", sans-serif;
+}
+
+.collapse-task-form,
+.new-task-button {
+  align-content: center;
+  width: 8em !important;
+  padding: 4px !important;
 }
 
 .task-list-div {
@@ -229,12 +251,19 @@
 
 label {
   font-weight: 300 !important;
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
 }
 
 .task-button-div {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   align-content: center;
+}
+
+#submit-login,
+#submit-signup {
+  margin: 16px;
 }
 
 .collapse-task-form {

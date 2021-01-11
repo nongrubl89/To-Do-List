@@ -1,8 +1,6 @@
-const DateTime=()=>{
-
-const dateTimePicker = document.createElement('div');
-dateTimePicker.innerHTML=
-`
+const DateTime = () => {
+  const dateTimePicker = document.createElement('div');
+  dateTimePicker.innerHTML = `
 <form class ='form-group'>
     <div class='input-group date' id='datetimepicker1'>
             <input type='text' placeholder='Due Date' class="form-control" data-date='due' />
@@ -12,9 +10,8 @@ dateTimePicker.innerHTML=
             </div> 
             <script type="text/javascript">
             
-            </script>`
-return dateTimePicker;
+            </script>`;
+  return dateTimePicker;
+};
 
-}            
-
-export {DateTime}
+export { DateTime };

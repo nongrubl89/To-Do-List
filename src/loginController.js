@@ -1,3 +1,7 @@
+import { renderInterface } from './interface.js';
+import { ProjectManager } from './projectManager.js';
+import { loginForm } from './loginForm.js';
+
 const loginController = (() => {
   const createUser = (email, password) => {
     firebase
@@ -5,11 +9,13 @@ const loginController = (() => {
       .createUserWithEmailAndPassword(email, password)
       .then((user) => {
         console.log('user created');
+        renderInterface.renderNewProjectButton();
       })
       .catch((error) => {
         var errorCode = error.code;
         var errorMessage = error.message;
-        console.log(error);
+        alert(error);
+        loginForm.initialLoginDiv();
         // ..
       });
   };

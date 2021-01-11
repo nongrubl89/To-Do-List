@@ -113,6 +113,7 @@ const renderInterface = (() => {
 
     const newProjectButton = document.createElement('button');
     newProjectButton.id = 'new-project-button';
+    newProjectButton.className = 'main-button';
     newProjectButton.innerHTML = 'Create New Project';
     newProjectFormDiv.appendChild(newProjectButton);
 
@@ -127,7 +128,7 @@ const renderInterface = (() => {
         );
         ProjectManager.setProjects(newProjectObject);
         renderProjects(ProjectManager.projects);
-        calendarValue = '';
+        calendar.value = '';
         newProjectInput.value = '';
       }
     });
@@ -174,7 +175,7 @@ const renderInterface = (() => {
     taskFormButtonDiv.className = 'task-button-div';
     const collapseTaskButton = document.createElement('button');
     collapseTaskButton.innerHTML = 'Close';
-    collapseTaskButton.className = 'collapse-task-form';
+    collapseTaskButton.className = 'main-button collapse-task-form';
     taskFormButtonDiv.appendChild(collapseTaskButton);
     collapseTaskButton.addEventListener('click', () => {
       overlayDiv.style.display = 'none';
@@ -182,7 +183,7 @@ const renderInterface = (() => {
 
     const newTaskButton = document.createElement('button');
     newTaskButton.innerHTML = 'Add task to ' + project.getTitle();
-    newTaskButton.className = 'new-task-button';
+    newTaskButton.className = 'main-button new-task-button';
     taskFormButtonDiv.appendChild(newTaskButton);
     newTaskForm.appendChild(taskFormButtonDiv);
 
