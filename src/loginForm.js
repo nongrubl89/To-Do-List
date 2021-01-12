@@ -29,7 +29,7 @@ const loginForm = (() => {
   <label for="email">Email:</label><br>
   <input class= 'form-control' type="text" id="email" placeholder= 'E-mail' name="email" value=""><br>
   <label for="password">Password:</label><br>
-  <input class ='form-control' type="text" id="pword"  placeholder ='Password' name="pword" value=""><br><br>
+  <input class ='form-control' type="password" id="pword"  placeholder ='Password' name="pword" value=""><br><br>
   <input class='main-button' type="submit" value=${word} id =${submit}>
 </form> `;
     sidebar.addEventListener('click', () => {
