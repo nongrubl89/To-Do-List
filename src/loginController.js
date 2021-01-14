@@ -9,13 +9,13 @@ const loginController = (() => {
       .createUserWithEmailAndPassword(email, password)
       .then((user) => {
         console.log('user created');
-        renderInterface.renderNewProjectButton();
+        // renderInterface.renderNewProjectButton();
       })
       .catch((error) => {
         var errorCode = error.code;
         var errorMessage = error.message;
         alert(error);
-        loginForm.initialLoginDiv();
+        // loginForm.initialLoginDiv();
         // ..
       });
   };
@@ -27,6 +27,7 @@ const loginController = (() => {
       .then((user) => {
         console.log('sign in success');
         renderInterface.renderNewProjectButton();
+        console.log(user);
       })
       .catch((error) => {
         var errorCode = error.code;
@@ -39,18 +40,17 @@ const loginController = (() => {
   const onLoginUser = () => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        // User is signed in, see docs for a list of available properties
-        // https://firebase.google.com/docs/reference/js/firebase.User
+        const navBar = document.querySelector('.nav');
+        navBar.innerHTML = user.email;
         var uid = user.uid;
-        // ...
+        console.log(uid);
       } else {
-        // User is signed out
-        // ...
+        console.log('could not log in');
       }
     });
   };
 
-  return { createUser, logInUser };
+  return { createUser, logInUser, onLoginUser };
 })();
 
 export { loginController };

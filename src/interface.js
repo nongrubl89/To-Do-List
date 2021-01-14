@@ -109,7 +109,7 @@ const renderInterface = (() => {
     $(function () {
       $('.date').datetimepicker();
     });
-    const calendar = document.querySelectorAll('.form-control')[1];
+    const calendar = document.querySelector('.cal-val');
 
     const newProjectButton = document.createElement('button');
     newProjectButton.id = 'new-project-button';
@@ -126,9 +126,10 @@ const renderInterface = (() => {
           newProjectInput.value,
           calendarValue.substr(0, calendarValue.indexOf(' '))
         );
+        console.log('calval', calendarValue);
         ProjectManager.setProjects(newProjectObject);
         renderProjects(ProjectManager.projects);
-        calendar.value = '';
+        // calendar.value = '';
         newProjectInput.value = '';
       }
     });

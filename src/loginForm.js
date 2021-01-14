@@ -11,7 +11,7 @@ const loginForm = (() => {
     sidebar.appendChild(loginDiv);
     sidebar.addEventListener('click', () => {
       if (event.target.id === 'log-in') {
-        createLoginDiv(loginDiv, 'Log In', 'submit-login');
+        createLoginDiv(loginDiv, 'Login', 'submit-login');
       }
       if (event.target.id === 'sign-up') {
         createLoginDiv(loginDiv, 'Sign-Up', 'submit-signup');
@@ -19,6 +19,8 @@ const loginForm = (() => {
       if (event.target.id === 'guest-user') {
         console.log('clicked');
         loginDiv.style.display = 'none';
+        const projects = ProjectManager.projects;
+        renderInterface.renderProjects(projects);
         renderInterface.renderNewProjectButton();
       }
     });
@@ -40,6 +42,7 @@ const loginForm = (() => {
           loginDiv.childNodes[1][0].value,
           loginDiv.childNodes[1][1].value
         );
+        loginController.onLoginUser();
       }
       if (event.target.id === 'submit-signup') {
         event.preventDefault();
@@ -48,6 +51,8 @@ const loginForm = (() => {
           loginDiv.childNodes[1][0].value,
           loginDiv.childNodes[1][1].value
         );
+        alert('user created');
+        initialLoginDiv();
       }
     });
   };
