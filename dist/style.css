@@ -99,6 +99,15 @@
   }
 }
 
+@keyframes slideIn {
+  0% {
+    transform: translateX(-900px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
 .project-div {
   background-color: #3454d1;
   width: 70%;
