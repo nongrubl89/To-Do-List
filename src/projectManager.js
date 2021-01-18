@@ -12,39 +12,28 @@ const ProjectList = () => {
   };
 
   //   regions: firebase.firestore.FieldValue.arrayUnion("greater_virginia")
-  const addProjToDatabase = (project) => {
+  const addProjToDatabase = (project, i) => {
+    const index = i.toString();
     const user = firebase.auth().currentUser;
-    const listDoc = db.collection('master').doc(user.email);
-    listDoc
-      .update(
-        {
-          projects: firebase.firestore.FieldValue.arrayUnion({
-            title: project.title,
-            dateDue: project.dateDue,
-          }),
-        },
-        { merge: true }
-      )
-      .then(() => console.log('added to db'));
+    const listDoc = db.collection(user.email).doc(index);
+    listDoc.set({title: project.title, dateDue:project.dateDue})
+    // listDoc.set(projects)
+
   };
 
   const getProjFromDatabase = () => {
     const user = firebase.auth().currentUser;
-    let docRef = db.collection('master').doc(user.email);
-    docRef
-      .get()
-      .then(function (doc) {
-        if (doc.exists) {
-          const projectList = doc.data().projects;
-          renderInterface.renderProjects(projectList);
-        } else {
-          // doc.data() will be undefined in this case
-          console.log('No such document!');
-        }
-      })
-      .catch(function (error) {
-        console.log('Error getting document:', error);
+    db.collection(user.email).get().then(function(querySnapshot) {
+      querySnapshot.forEach(function(doc) {
+          const projectList = [];
+          projectList.push(doc.data());
+          projectList.forEach(project=>{
+                    const newProj = Project(project.title, project.dateDue);
+                    projects.push(newProj);
+                    renderInterface.renderProjects(projects);
+          })
       });
+  });
   };
   return {
     projects,

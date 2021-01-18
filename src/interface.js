@@ -31,7 +31,7 @@ const renderInterface = (() => {
         projectDiv.appendChild(titleDiv);
         projectDiv.appendChild(dateDiv);
         container.appendChild(projectDiv);
-        ProjectManager.addProjToDatabase(project);
+        ProjectManager.addProjToDatabase(project, index);
 
         const deleteButton = document.createElement('button');
         deleteButton.className = 'img-button delete-project-button';
