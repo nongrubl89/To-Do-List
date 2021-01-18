@@ -44,7 +44,7 @@ const loginForm = (() => {
         );
         loginController.onLoginUser();
         ProjectManager.getProjFromDatabase();
-        // renderInterface.renderProjects(projectList);
+        renderInterface.renderProjects(projectList);
       }
       if (event.target.id === 'submit-signup') {
         event.preventDefault();
@@ -59,7 +59,19 @@ const loginForm = (() => {
     });
   };
 
-  return { initialLoginDiv };
+  const removeInterface = ()=>{
+    console.log(sidebar.firstChild)
+    while (sidebar.firstChild){
+      sidebar.remove(sidebar.firstChild);
+    }
+    const container = document.querySelector('.content');
+    while(container.firstChild){
+      container.remove(container.firstChild)
+    }
+
+  }
+
+  return { initialLoginDiv, removeInterface };
 })();
 
 export { loginForm };

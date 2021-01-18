@@ -35,12 +35,24 @@ const ProjectList = () => {
       });
   });
   };
+
+  const deleteProjFromDatabase =(i)=>{
+    const user = firebase.auth().currentUser;
+    const index = i.toString();
+    db.collection(user.email).doc(index).delete().then(function() {
+      console.log("Document successfully deleted!");
+  }).catch(function(error) {
+      console.error("Error removing document: ", error);
+  });
+
+  }
   return {
     projects,
     setProjects,
     deleteProject,
     addProjToDatabase,
     getProjFromDatabase,
+    deleteProjFromDatabase
   };
 };
 
