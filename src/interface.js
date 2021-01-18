@@ -36,8 +36,9 @@ const renderInterface = (() => {
         const deleteButton = document.createElement('button');
         deleteButton.className = 'img-button delete-project-button';
         deleteButton.addEventListener('click', () => {
-          event.target.parentNode.parentNode.remove();
+          event.target.parentNode.remove();
           ProjectManager.deleteProject(index);
+          ProjectManager.deleteProjFromDatabase(index);
         });
 
         projectDiv.appendChild(deleteButton);
