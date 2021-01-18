@@ -1,3 +1,5 @@
+import { renderInterface } from './interface';
+
 const ProjectList = () => {
   const projects = [];
   const setProjects = (Project) => {
@@ -8,7 +10,49 @@ const ProjectList = () => {
     projects.splice(index, 1);
     console.log(projects);
   };
-  return { projects, setProjects, deleteProject };
+
+  //   regions: firebase.firestore.FieldValue.arrayUnion("greater_virginia")
+  const addProjToDatabase = (project) => {
+    const user = firebase.auth().currentUser;
+    const listDoc = db.collection('master').doc(user.email);
+    listDoc
+      .update(
+        {
+          projects: firebase.firestore.FieldValue.arrayUnion({
+            title: project.title,
+            dateDue: project.dateDue,
+          }),
+        },
+        { merge: true }
+      )
+      .then(() => console.log('added to db'));
+  };
+
+  const getProjFromDatabase = () => {
+    const user = firebase.auth().currentUser;
+    let docRef = db.collection('master').doc(user.email);
+    docRef
+      .get()
+      .then(function (doc) {
+        if (doc.exists) {
+          const projectList = doc.data().projects;
+          renderInterface.renderProjects(projectList);
+        } else {
+          // doc.data() will be undefined in this case
+          console.log('No such document!');
+        }
+      })
+      .catch(function (error) {
+        console.log('Error getting document:', error);
+      });
+  };
+  return {
+    projects,
+    setProjects,
+    deleteProject,
+    addProjToDatabase,
+    getProjFromDatabase,
+  };
 };
 
 const Project = (title, dateDue) => {
@@ -29,9 +73,9 @@ const ListItem = (title, description, priority) => {
 };
 
 const Home = Project('Sample', '9/15/2020');
-const newTodo = ListItem('Clean', 'clean the house', 'High', true);
-Home.setTodos(newTodo);
+console.log(Home);
+// // Home.setTodos(newTodo);
 const ProjectManager = ProjectList();
-ProjectManager.setProjects(Home);
+// ProjectManager.setProjects(Home);
 
 export { ListItem, Project, ProjectManager };

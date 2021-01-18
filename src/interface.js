@@ -31,6 +31,7 @@ const renderInterface = (() => {
         projectDiv.appendChild(titleDiv);
         projectDiv.appendChild(dateDiv);
         container.appendChild(projectDiv);
+        ProjectManager.addProjToDatabase(project);
 
         const deleteButton = document.createElement('button');
         deleteButton.className = 'img-button delete-project-button';
@@ -71,7 +72,6 @@ const renderInterface = (() => {
           if (taskList.style.display === 'none') {
             projectDiv.className = 'project-div-expanded';
             taskList.style.display = 'grid';
-            shiftDivsDown();
 
             if (projectDiv.className === 'project-div') {
               taskList.style.display = 'none';
@@ -79,7 +79,6 @@ const renderInterface = (() => {
           } else if (taskList.style.display === 'grid') {
             projectDiv.className = 'project-div';
             taskList.style.display = 'none';
-            shiftDivsUp();
           }
         });
 
@@ -126,10 +125,9 @@ const renderInterface = (() => {
           newProjectInput.value,
           calendarValue.substr(0, calendarValue.indexOf(' '))
         );
-        console.log('calval', calendarValue);
         ProjectManager.setProjects(newProjectObject);
         renderProjects(ProjectManager.projects);
-        // calendar.value = '';
+        calendar.value = '';
         newProjectInput.value = '';
       }
     });

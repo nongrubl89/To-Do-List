@@ -42,6 +42,8 @@
         };
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        console.log(db);
         console.log('firebase init')
       </script>
 </body>

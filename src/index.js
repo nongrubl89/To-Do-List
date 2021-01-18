@@ -1,5 +1,3 @@
-import { renderInterface } from './interface.js';
-import { ProjectManager } from './projectManager.js';
 import { loginForm } from './loginForm.js';
 loginForm.initialLoginDiv();
 // const submit = document.querySelector('#submit');

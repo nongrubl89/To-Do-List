@@ -6,7 +6,6 @@ const loginForm = (() => {
   const initialLoginDiv = () => {
     const loginDiv = document.createElement('div');
     loginDiv.id = 'login-div';
-    // loginDiv.className = 'col-sm-4';
     loginDiv.innerHTML = `<h3 class='header'>To-Do List</h3><button class='main-button' id ='log-in'>Login</button><br><button class='main-button' id ='sign-up'>Sign Up</button><button class='main-button' id ='guest-user'>Continue As Guest</button>`;
     sidebar.appendChild(loginDiv);
     sidebar.addEventListener('click', () => {
@@ -20,6 +19,7 @@ const loginForm = (() => {
         console.log('clicked');
         loginDiv.style.display = 'none';
         const projects = ProjectManager.projects;
+        console.log(projects);
         renderInterface.renderProjects(projects);
         renderInterface.renderNewProjectButton();
       }
@@ -43,6 +43,8 @@ const loginForm = (() => {
           loginDiv.childNodes[1][1].value
         );
         loginController.onLoginUser();
+        ProjectManager.getProjFromDatabase();
+        // renderInterface.renderProjects(projectList);
       }
       if (event.target.id === 'submit-signup') {
         event.preventDefault();
