@@ -58,8 +58,8 @@ const loginController = (() => {
     const logOutUser =()=>{
       firebase.auth().signOut().then(() => {
         console.log('sign out success')
-        loginForm.removeInterface();
-        
+        // loginForm.removeInterface();
+
       }).catch((error) => {
         console.log(error)
       });

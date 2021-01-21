@@ -60,14 +60,14 @@ const loginForm = (() => {
   };
 
   const removeInterface = ()=>{
-    console.log(sidebar.firstChild)
-    while (sidebar.firstChild){
-      sidebar.remove(sidebar.firstChild);
-    }
+    // console.log(sidebar.firstChild)
+    // while (sidebar.firstChild){
+    //   sidebar.remove(sidebar.firstChild);
+    // }
     const container = document.querySelector('.content');
-    while(container.firstChild){
-      container.remove(container.firstChild)
-    }
+    for (let i = container.childNodes.length - 1; i >= 0; i--) {
+      container.removeChild(node.childNodes[i]);
+   }
 
   }
 
