@@ -3,12 +3,14 @@ import { ProjectManager } from './projectManager.js';
 import { loginController } from './loginController.js';
 const loginForm = (() => {
   const sidebar = document.querySelector('.sidebar');
+  
   const initialLoginDiv = () => {
     const loginDiv = document.createElement('div');
     loginDiv.id = 'login-div';
     loginDiv.innerHTML = `<h3 class='header'>To-Do List</h3><button class='main-button' id ='log-in'>Login</button><br><button class='main-button' id ='sign-up'>Sign Up</button><button class='main-button' id ='guest-user'>Continue As Guest</button>`;
     sidebar.appendChild(loginDiv);
-    sidebar.addEventListener('click', () => {
+    sidebar.addEventListener('click', (e) => {
+      e.preventDefault();
       if (event.target.id === 'log-in') {
         createLoginDiv(loginDiv, 'Login', 'submit-login');
       }
@@ -34,7 +36,8 @@ const loginForm = (() => {
   <input class ='form-control' type="password" id="pword"  placeholder ='Password' name="pword" value=""><br><br>
   <input class='main-button' type="submit" value=${word} id =${submit}>
 </form> `;
-    sidebar.addEventListener('click', () => {
+    sidebar.addEventListener('click', (e) => {
+      e.preventDefault();
       if (event.target.id === 'submit-login') {
         event.preventDefault();
         loginDiv.style.display = 'none';
@@ -42,9 +45,11 @@ const loginForm = (() => {
           loginDiv.childNodes[1][0].value,
           loginDiv.childNodes[1][1].value
         );
-        loginController.onLoginUser();
+        console.log('logged in');
+        // loginController.onLoginUser();
+        renderInterface.renderNewProjectButton();
+        createLoginNav(firebase.auth().currentUser.email);
         ProjectManager.getProjFromDatabase();
-        renderInterface.renderProjects(projectList);
       }
       if (event.target.id === 'submit-signup') {
         event.preventDefault();
@@ -54,24 +59,28 @@ const loginForm = (() => {
           loginDiv.childNodes[1][1].value
         );
         alert('user created');
-        initialLoginDiv();
       }
     });
   };
 
-  const removeInterface = ()=>{
-    // console.log(sidebar.firstChild)
-    // while (sidebar.firstChild){
-    //   sidebar.remove(sidebar.firstChild);
-    // }
-    const container = document.querySelector('.content');
-    for (let i = container.childNodes.length - 1; i >= 0; i--) {
-      container.removeChild(node.childNodes[i]);
-   }
-
+  const createLoginNav = (user) =>{
+    const navBar = document.querySelector('.login-nav');
+        navBar.innerHTML = `<div class ='logged-in'><p>${user}<p><br><button id ='logout' class ='main-button'>Log Out</button></div>`;
   }
 
-  return { initialLoginDiv, removeInterface };
+  // const removeInterface = ()=>{
+  //   // console.log(sidebar.firstChild)
+  //   // while (sidebar.firstChild){
+  //   //   sidebar.remove(sidebar.firstChild);
+  //   // }
+  //   
+  //   for (let i = container.childNodes.length - 1; i >= 0; i--) {
+  //     container.removeChild(node.childNodes[i]);
+  //  }
+
+  // }
+
+  return { initialLoginDiv, createLoginNav};
 })();
 
 export { loginForm };

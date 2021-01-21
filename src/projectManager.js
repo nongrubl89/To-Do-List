@@ -23,6 +23,7 @@ const ProjectList = () => {
 
   const getProjFromDatabase = () => {
     const user = firebase.auth().currentUser;
+    console.log('user',user);
     db.collection(user.email).get().then(function(querySnapshot) {
       querySnapshot.forEach(function(doc) {
           const projectList = [];

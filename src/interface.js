@@ -1,5 +1,6 @@
 import { ListItem, Project, ProjectManager } from './projectManager.js';
 import { DateTime } from './dateTime.js';
+import { doc } from 'prettier';
 
 const renderInterface = (() => {
   const container = document.querySelector('.content');
@@ -133,6 +134,7 @@ const renderInterface = (() => {
       }
     });
   };
+  
 
   //creates a form where a new task is entered on the project div
   const createNewTaskForm = (project, projectDiv) => {
