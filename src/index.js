@@ -12,7 +12,6 @@ var firebaseConfig = {
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
   console.log('firebase init');
-loginController.authListener();
 
 
 
