@@ -1,5 +1,7 @@
 
 import { loginForm } from './loginForm.js';
+import {ProjectManager} from './ProjectManager.js';
+import { renderInterface } from './interface';
 
 
 const loginController = (() => {
@@ -26,7 +28,7 @@ const loginController = (() => {
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then((user) => {
-        console.log('sign in success');
+        console.log(user.email);
       })
       .catch((error) => {
         var errorCode = error.code;
@@ -40,10 +42,14 @@ const loginController = (() => {
   const authListener = () => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
+        renderInterface.renderNewProjectButton();
         console.log('auth listener signed in')
+        loginForm.createLoginNav(firebase.auth().currentUser.email);
+        ProjectManager.getProjFromDatabase();
         
       } else {
         console.log('auth listener signed out');
+        loginForm.initialLoginDiv();
       }
     });
   };

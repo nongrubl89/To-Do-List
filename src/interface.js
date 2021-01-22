@@ -34,14 +34,13 @@ const renderInterface = (() => {
         projectDiv.appendChild(titleDiv);
         projectDiv.appendChild(dateDiv);
         container.appendChild(projectDiv);
-        ProjectManager.addProjToDatabase(project, index);
 
         const deleteButton = document.createElement('button');
         deleteButton.className = 'img-button delete-project-button';
         deleteButton.addEventListener('click', () => {
           event.target.parentNode.remove();
           ProjectManager.deleteProject(index);
-          ProjectManager.deleteProjFromDatabase(index);
+          ProjectManager.deleteProjFromDatabase(project.title);
         });
 
         projectDiv.appendChild(deleteButton);
@@ -87,6 +86,10 @@ const renderInterface = (() => {
 
         projectDiv.appendChild(showTasksButton);
         projectDiv.appendChild(taskList);
+        if(firebase.auth().currentUser){
+          ProjectManager.addProjToDatabase(project, project.title);
+          console.log('user project added')
+          } else {console.log('using app as guest')}
       }
     });
     const logOutButton = document.getElementById('logout');
@@ -97,8 +100,7 @@ const renderInterface = (() => {
       }  while (sidebar.firstChild) {
         sidebar.removeChild(sidebar.lastChild);
       }
-      loginForm.initialLoginDiv();
-    }).catch((error)=> console.log(error))})
+    }).catch((error)=> console.log(error))}, false)
   };
 
   //creates the text box and button for a new project

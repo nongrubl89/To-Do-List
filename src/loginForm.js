@@ -26,10 +26,11 @@ const loginForm = (() => {
     }
     if(guestUserButton){
       guestUserButton.addEventListener('click', (e)=>{
+        console.log('clicked');
         loginDiv.style.display = 'none';
-            const projects = ProjectManager.projects;
-            console.log(projects);
-            renderInterface.renderProjects(projects);
+            // const projects = ProjectManager.projects;
+            // console.log(projects);
+            // renderInterface.renderProjects(projects);
             renderInterface.renderNewProjectButton();
     })}
   };
@@ -48,15 +49,13 @@ const loginForm = (() => {
     if(submitLoginButton){
       submitLoginButton.addEventListener('click', (e)=>{
         e.preventDefault();
+        
         loginDiv.style.display = 'none';
+        // renderInterface.renderNewProjectButton();
         loginController.logInUser(
           loginDiv.childNodes[1][0].value,
           loginDiv.childNodes[1][1].value
         );
-        console.log('logged in');
-        renderInterface.renderNewProjectButton();
-        createLoginNav(firebase.auth().currentUser.email);
-        ProjectManager.getProjFromDatabase();
       })
     }
     if(submitSignUpButton){

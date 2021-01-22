@@ -12,10 +12,10 @@ const ProjectList = () => {
   };
 
   //   regions: firebase.firestore.FieldValue.arrayUnion("greater_virginia")
-  const addProjToDatabase = (project, i) => {
+  const addProjToDatabase = (project, pName) => {
     const index = i.toString();
     const user = firebase.auth().currentUser;
-    const listDoc = db.collection(user.email).doc(index);
+    const listDoc = firebase.firestore().collection(user.email).doc(pName);
     listDoc.set({title: project.title, dateDue:project.dateDue})
     // listDoc.set(projects)
 
@@ -24,7 +24,7 @@ const ProjectList = () => {
   const getProjFromDatabase = () => {
     const user = firebase.auth().currentUser;
     console.log('user',user);
-    db.collection(user.email).get().then(function(querySnapshot) {
+    firebase.firestore().collection(user.email).get().then(function(querySnapshot) {
       querySnapshot.forEach(function(doc) {
           const projectList = [];
           projectList.push(doc.data());
@@ -39,8 +39,8 @@ const ProjectList = () => {
 
   const deleteProjFromDatabase =(i)=>{
     const user = firebase.auth().currentUser;
-    const index = i.toString();
-    db.collection(user.email).doc(index).delete().then(function() {
+    // const index = i.toString();
+    firebase.firestore().collection(user.email).doc(i).delete().then(function() {
       console.log("Document successfully deleted!");
   }).catch(function(error) {
       console.error("Error removing document: ", error);
