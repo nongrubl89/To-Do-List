@@ -34,20 +34,21 @@ const loginController = (() => {
         console.log(error);
         loginForm.initialLoginDiv();
       });
+
   };
 
-  // const onLoginUser = () => {
-  //   firebase.auth().onAuthStateChanged((user) => {
-  //     if (user) {
-  //       loginForm.createLoginNav(user)
+  const authListener = () => {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        console.log('auth listener signed in')
         
-  //     } else {
-  //       console.log('could not log in');
-  //     }
-  //   });
-  // };
+      } else {
+        console.log('auth listener signed out');
+      }
+    });
+  };
 
-  return { createUser, logInUser };
+  return { createUser, logInUser, authListener };
 })();
 
 export { loginController };

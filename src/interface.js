@@ -1,9 +1,11 @@
 import { ListItem, Project, ProjectManager } from './projectManager.js';
 import { DateTime } from './dateTime.js';
+import { loginForm } from './loginForm.js';
 import { doc } from 'prettier';
 
 const renderInterface = (() => {
   const container = document.querySelector('.content');
+  const sidebar = document.querySelector('.sidebar');
 
   //shows each project and renders the project div in the dom
   const renderProjects = (projects) => {
@@ -60,7 +62,6 @@ const renderInterface = (() => {
             showTasksButton.className === 'show-tasks' &&
             taskList.hasChildNodes() === false
           ) {
-            console.log(taskList.hasChildNodes());
             showTasksButton.className = 'img-button show-tasks';
           } else {
             showTasksButton.className = 'img-button hide-tasks';
@@ -88,11 +89,20 @@ const renderInterface = (() => {
         projectDiv.appendChild(taskList);
       }
     });
+    const logOutButton = document.getElementById('logout');
+      logOutButton.addEventListener('click', ()=> {firebase.auth().signOut().then(()=>{
+        console.log('user signed out')
+        while (container.firstChild) {
+        container.removeChild(container.lastChild);
+      }  while (sidebar.firstChild) {
+        sidebar.removeChild(sidebar.lastChild);
+      }
+      loginForm.initialLoginDiv();
+    }).catch((error)=> console.log(error))})
   };
 
   //creates the text box and button for a new project
   const renderNewProjectButton = () => {
-    const sidebar = document.querySelector('.sidebar');
     const newProjectFormDiv = document.createElement('div');
     newProjectFormDiv.innerHTML = `<h3 class ="header">Add a project</h3>`;
     newProjectFormDiv.className = 'col-sm-4';

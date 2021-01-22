@@ -9,23 +9,29 @@ const loginForm = (() => {
     loginDiv.id = 'login-div';
     loginDiv.innerHTML = `<h3 class='header'>To-Do List</h3><button class='main-button' id ='log-in'>Login</button><br><button class='main-button' id ='sign-up'>Sign Up</button><button class='main-button' id ='guest-user'>Continue As Guest</button>`;
     sidebar.appendChild(loginDiv);
-    sidebar.addEventListener('click', (e) => {
-      e.preventDefault();
-      if (event.target.id === 'log-in') {
-        createLoginDiv(loginDiv, 'Login', 'submit-login');
-      }
-      if (event.target.id === 'sign-up') {
-        createLoginDiv(loginDiv, 'Sign-Up', 'submit-signup');
-      }
-      if (event.target.id === 'guest-user') {
-        console.log('clicked');
+    const loginButton = document.getElementById('log-in');
+    const signUpButton = document.getElementById('sign-up');
+    const guestUserButton = document.getElementById('guest-user');
+    if(loginButton){
+      loginButton.addEventListener('click', (e)=>{
+        e.preventDefault();
+        createLoginDiv(loginDiv, 'Login', 'submit-login')
+      })
+    }
+    if(signUpButton){
+      signUpButton.addEventListener('click', (e)=>{
+        e.preventDefault();
+        createLoginDiv(loginDiv, 'Sign-Up', 'submit-signup')
+      })
+    }
+    if(guestUserButton){
+      guestUserButton.addEventListener('click', (e)=>{
         loginDiv.style.display = 'none';
-        const projects = ProjectManager.projects;
-        console.log(projects);
-        renderInterface.renderProjects(projects);
-        renderInterface.renderNewProjectButton();
-      }
-    });
+            const projects = ProjectManager.projects;
+            console.log(projects);
+            renderInterface.renderProjects(projects);
+            renderInterface.renderNewProjectButton();
+    })}
   };
 
   const createLoginDiv = (loginDiv, word, submit) => {
@@ -36,49 +42,39 @@ const loginForm = (() => {
   <input class ='form-control' type="password" id="pword"  placeholder ='Password' name="pword" value=""><br><br>
   <input class='main-button' type="submit" value=${word} id =${submit}>
 </form> `;
-    sidebar.addEventListener('click', (e) => {
-      e.preventDefault();
-      if (event.target.id === 'submit-login') {
-        event.preventDefault();
+
+    const submitLoginButton = document.getElementById('submit-login');
+    const submitSignUpButton = document.getElementById('submit-signup');
+    if(submitLoginButton){
+      submitLoginButton.addEventListener('click', (e)=>{
+        e.preventDefault();
         loginDiv.style.display = 'none';
         loginController.logInUser(
           loginDiv.childNodes[1][0].value,
           loginDiv.childNodes[1][1].value
         );
         console.log('logged in');
-        // loginController.onLoginUser();
         renderInterface.renderNewProjectButton();
         createLoginNav(firebase.auth().currentUser.email);
         ProjectManager.getProjFromDatabase();
-      }
-      if (event.target.id === 'submit-signup') {
-        event.preventDefault();
-        loginDiv.style.display = 'none';
+      })
+    }
+    if(submitSignUpButton){
+      submitSignUpButton.addEventListener('click', (e)=>{
+                loginDiv.style.display = 'none';
         loginController.createUser(
           loginDiv.childNodes[1][0].value,
           loginDiv.childNodes[1][1].value
         );
         alert('user created');
-      }
-    });
+      })
+    }
   };
 
   const createLoginNav = (user) =>{
     const navBar = document.querySelector('.login-nav');
         navBar.innerHTML = `<div class ='logged-in'><p>${user}<p><br><button id ='logout' class ='main-button'>Log Out</button></div>`;
   }
-
-  // const removeInterface = ()=>{
-  //   // console.log(sidebar.firstChild)
-  //   // while (sidebar.firstChild){
-  //   //   sidebar.remove(sidebar.firstChild);
-  //   // }
-  //   
-  //   for (let i = container.childNodes.length - 1; i >= 0; i--) {
-  //     container.removeChild(node.childNodes[i]);
-  //  }
-
-  // }
 
   return { initialLoginDiv, createLoginNav};
 })();
