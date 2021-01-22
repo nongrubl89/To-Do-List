@@ -139,10 +139,10 @@ const renderInterface = (() => {
           newProjectInput.value,
           calendarValue.substr(0, calendarValue.indexOf(' '))
         );
-        ProjectManager.setProjects(newProjectObject);
-        renderProjects(ProjectManager.projects);
         calendar.value = '';
         newProjectInput.value = '';
+        ProjectManager.setProjects(newProjectObject);
+        renderProjects(ProjectManager.projects);
       }
     });
   };
