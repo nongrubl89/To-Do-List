@@ -1,4 +1,3 @@
-
 import { loginForm } from './loginForm.js';
 import {ProjectManager} from './ProjectManager.js';
 import { renderInterface } from './interface';
