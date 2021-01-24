@@ -37,6 +37,12 @@
   justify-content: center;
 }
 
+.logged-in{
+  display: grid;
+  justify-items: center;
+  margin-bottom: 1em;
+}
+
 .content {
   height: 100vh;
   height: 100vh;
