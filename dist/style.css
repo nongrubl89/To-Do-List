@@ -225,7 +225,7 @@
 #overlay {
   position: fixed;
   display: block;
-  width: 100%;
+  width: 50%;
   height: 100%;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
